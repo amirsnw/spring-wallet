@@ -13,6 +13,8 @@ public interface FinancialMapper {
 
     FinancialEntity toEntity(FinancialDto dto);
 
+    List<FinancialEntity> toEntity(List<FinancialDto> dto);
+
     FinancialModel toModel(FinancialEntity entity);
 
     List<FinancialModel> toModel(List<FinancialEntity> entity);
