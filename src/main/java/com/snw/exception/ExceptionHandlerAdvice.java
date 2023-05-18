@@ -1,6 +1,8 @@
 package com.snw.exception;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,6 +38,13 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FinancialBoundaryException.class)
+    public ResponseEntity<String> handleFinancialBoundaryException(FinancialBoundaryException ex, WebRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity(ex.getConstraintViolationMap(), headers, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoRecordFoundException.class)
